@@ -47,8 +47,53 @@ export default function AssignmentEditor() {
             <td>
                 <select id="wd-submission-type">
                     <option value="online">Online</option>
-                    <option value="inperson">In-person</option>
-                </select>
+                </select><br /><br />
+                <label>Online Entry Options</label><br />
+                <input type="checkbox" id="wd-text-entry" />
+                <label htmlFor="wd-text-entry">Text Entry</label><br />
+                <input type="checkbox" id="wd-website-ur" />
+                <label htmlFor="wd-website-ur">Website URL</label><br />
+                <input type="checkbox" id="wd-media-recordings" />
+                <label htmlFor="wd-media-recordings">Media Recordings</label><br />
+                <input type="checkbox" id="wd-student-annotation" />
+                <label htmlFor="wd-student-annotation">Student Annotation</label><br />
+                <input type="checkbox" id="wd-file-upload" />
+                <label htmlFor="wd-file-upload">File Uploads</label><br />
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="top">
+              <label htmlFor="wd-assign-to">Assign</label>
+            </td>
+            <td>
+
+                <label>Assign to</label><br />
+                <input id="wd-assign-to" placeholder="Everyone"/><br /><br />
+
+                <label htmlFor="wd-due-date">Due</label><br />
+                <input type="date" id="wd-due-date" value="2024-05-13"/><br /><br />
+                
+              <tr>
+                <td>
+                  <label htmlFor="wd-available-from">Available from</label><br />
+                  <input type="date" id="wd-available-from" value="2024-05-06"/>
+                </td>
+                <td>
+                  <label htmlFor="wd-available-until">Until</label><br />
+                  <input type="date" id="wd-available-until" value="2024-05-20"/>
+                </td>
+              </tr>
+            </td>
+          </tr>
+        </table>
+        <hr></hr>
+        <table align="right">
+          <tr>
+            <td>
+              <button>Cancel</button>
+            </td>
+            <td>
+              <button>Save</button>
             </td>
           </tr>
         </table>

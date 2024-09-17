@@ -1,6 +1,6 @@
 export default function CourseStatus() {
     return (
-        <div id="ed-course-status">
+        <div id="wd-course-status">
             <h2>Course Status</h2>
             <button>Unpublish</button>
             <button>Publish</button><br />
