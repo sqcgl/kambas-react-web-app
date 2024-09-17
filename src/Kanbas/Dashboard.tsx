@@ -6,7 +6,7 @@ export default function Dashboard() {
             <h2 id="wd-dashboard-published">Published Courses (12)</h2><br />
             <div id="wd-dashboard-courses">
                 <div className="wd-dashboard-couse">
-                    <img src="/images/reactjs.jpg" width={200} />
+                    <img src="/images/reactjs.jpg" width={200} alt="course image"/>
                     <div>
                         <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/1234/Home">
                             CS1234 React JS
@@ -18,7 +18,7 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="wd-dashboard-couse">
-                    <img src="/images/reactjs.jpg" width={200} />
+                    <img src="/images/reactjs.jpg" width={200} alt="course image"/>
                     <div>
                         <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/5200/Home">
                             CS5200 DBMS
@@ -30,7 +30,7 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="wd-dashboard-couse">
-                    <img src="/images/reactjs.jpg" width={200} />
+                    <img src="/images/reactjs.jpg" width={200} alt="course image"/>
                     <div>
                         <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/1111/Home">
                             CS1111 Python
@@ -42,7 +42,7 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="wd-dashboard-couse">
-                    <img src="/images/reactjs.jpg" width={200} />
+                    <img src="/images/reactjs.jpg" width={200} alt="course image"/>
                     <div>
                         <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/2222/Home">
                             CS2222 C
@@ -54,7 +54,7 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="wd-dashboard-couse">
-                    <img src="/images/reactjs.jpg" width={200} />
+                    <img src="/images/reactjs.jpg" width={200} alt="course image"/>
                     <div>
                         <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/3333/Home">
                             CS3333 C++
@@ -66,7 +66,7 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="wd-dashboard-couse">
-                    <img src="/images/reactjs.jpg" width={200} />
+                    <img src="/images/reactjs.jpg" width={200} alt="course image"/>
                     <div>
                         <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/4444/Home">
                             CS4444 Java
@@ -78,7 +78,7 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="wd-dashboard-couse">
-                    <img src="/images/reactjs.jpg" width={200} />
+                    <img src="/images/reactjs.jpg" width={200} alt="course image"/>
                     <div>
                         <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/5555/Home">
                             CS5555 Algorithms
