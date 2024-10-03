@@ -15,7 +15,7 @@ export default function KanbasNavigation() {
         href="https://www.northeastern.edu/"
         className="list-group-item bg-black border-0 text-center"
       >
-        <img src="kanbas-react-web-app\public\images\logo.jpg" width="75px" />
+        <img src="/images/neulogo.webp" width="75px" />
       </a>
       <br />
       <Link

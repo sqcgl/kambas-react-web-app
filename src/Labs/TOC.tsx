@@ -41,7 +41,7 @@ export default function TOC() {
           Kanbas
         </a>
       </li>
-      <li className="nav-item">
+      <li className="nav-item" id="wb-github">
         <a id="wd-k" href="https://github.com/sqcgl" className="nav-link">
           My GitHub
         </a>
