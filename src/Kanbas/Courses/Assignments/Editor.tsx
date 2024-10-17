@@ -1,4 +1,16 @@
+import { useParams } from "react-router";
+import { assignments } from "../../Database";
+import { courses } from "../../Database";
+
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const course = courses.find((course) => course._id === cid);
+  const assignment = assignments.find((assignment) => assignment._id === aid);
+
+  const filteredAssignments = assignments.filter(
+    (assignment) => assignment.course === cid
+  );
+
   return (
     <div className="container">
       <div className="mb-3 row" id="wd-name">
@@ -9,7 +21,7 @@ export default function AssignmentEditor() {
           type="text"
           className="form-control"
           id="assignmentName"
-          value={"A1"}
+          value={`${assignment?.title}`}
         />
       </div>
       <div className="mb-3 row">
@@ -185,7 +197,12 @@ export default function AssignmentEditor() {
               <b>Due</b>
             </label>
             <div>
-              <input type="date" id="due" className="form-control mt-2" />
+              <input
+                type="date"
+                id="due"
+                className="form-control mt-2"
+                value={`${course?.endDate}`}
+              />
             </div>
           </div>
           <div className="row mt-2" id="wd-available-from">
@@ -194,7 +211,12 @@ export default function AssignmentEditor() {
                 <b>Available from</b>
               </label>
               <div>
-                <input type="date" id="due" className="form-control mt-2" />
+                <input
+                  type="date"
+                  id="available-from"
+                  className="form-control mt-2"
+                  value={`${course?.startDate}`}
+                />
               </div>
             </div>
             <div className="col" id="wd-available-until">
@@ -203,7 +225,7 @@ export default function AssignmentEditor() {
                   <b>Until</b>
                 </label>
                 <div>
-                  <input type="date" id="due" className="form-control mt-2" />
+                  <input type="date" id="until" className="form-control mt-2" />
                 </div>
               </div>
             </div>
