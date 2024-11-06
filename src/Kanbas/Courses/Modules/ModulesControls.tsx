@@ -1,17 +1,27 @@
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
+import ModuleEditor from "./ModuleEditor";
 
-export default function ModulesControls() {
+export default function ModulesControls({
+  moduleName,
+  setModuleName,
+  addModule,
+}: {
+  moduleName: string;
+  setModuleName: (title: string) => void;
+  addModule: () => void;
+}) {
   return (
-    <div id="wd-modules-controls" className="text-nowarp">
-      <button
-        id="wd-add-module-btn"
-        className="btn btn-lg btn-danger me-1 float-end"
-      >
-        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-        Module
+    <div id="wd-modules-controls" className="d-flex justify-content-end mb-3">
+      <button id="wd-collapse-all" className="btn btn-secondary btn-lg me-2">
+        Collapse All
       </button>
-      <div className="dropdown d-inline me-1 float-end">
+
+      <button id="wd-view-progress" className="btn btn-secondary btn-lg me-2">
+        View Progress
+      </button>
+
+      <div className="dropdown me-2">
         <button
           id="wd-publish-all-btn"
           className="btn btn-lg btn-secondary dropdown-toggle"
@@ -64,22 +74,23 @@ export default function ModulesControls() {
           </li>
         </ul>
       </div>
-      <div>
-        <button
-          id="wd-view-progress"
-          className="btn btn-secondary btn-lg me-1 float-end"
-        >
-          View Progress
-        </button>
-      </div>
-      <div>
-        <button
-          id="wd-collapse-all"
-          className="btn btn-secondary btn-lg me-1 float-end"
-        >
-          Collapse All
-        </button>
-      </div>
+
+      <button
+        id="wd-add-module-btn"
+        className="btn btn-lg btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#wd-add-module-dialog"
+      >
+        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+        Module
+      </button>
+
+      <ModuleEditor
+        dialogTitle="Add Module"
+        moduleName={moduleName}
+        setModuleName={setModuleName}
+        addModule={addModule}
+      />
     </div>
   );
 }

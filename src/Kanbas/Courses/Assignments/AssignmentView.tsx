@@ -4,16 +4,24 @@ import { BiSolidDownArrow } from "react-icons/bi";
 import { TfiWrite } from "react-icons/tfi";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { courses } from "../../Database";
-import { assignments } from "../../Database";
-
+import { FaTrash } from "react-icons/fa";
+import { deleteAssignment } from "../Assignments/reducer";
 export default function AssignmentView() {
   const { cid } = useParams();
+  const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const course = courses.find((course) => course._id === cid);
-
+  const dispatch = useDispatch();
   const filteredAssignments = assignments.filter(
-    (assignment) => assignment.course === cid
+    (assignment: any) => assignment.course === cid
   );
+  const handleDelete = (assignmentId: any) => {
+    if (window.confirm("Are you sure you want to delete this assignment?")) {
+      dispatch(deleteAssignment(assignmentId));
+    }
+  };
   return (
     <div>
       <ul className="list-group rounded-0">
@@ -24,27 +32,32 @@ export default function AssignmentView() {
             Assigments <ModuelControlButtons />
           </div>
           <ul className="list-group rounded-0" id="wd-assignment-list">
-            {filteredAssignments.map((assignment) => (
+            {filteredAssignments.map((assignment: any) => (
               <li className="wd-assignment-list-item wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
                 <BsGripVertical className="me-2 fs-3" />
                 <TfiWrite className="me-2 fs-3" />
                 <div>
-                  <a
-                    href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                  <Link
+                    to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                     className="wd-assignment-link"
                     style={{ color: "black", textDecoration: "none" }}
                   >
                     <h4 className="mb-0">
                       <b>{assignment.title}</b>
                     </h4>
-                  </a>
+                  </Link>
                   <p className="mb-0 text-muted">
                     <span className="text-danger">Multiple Modules</span> |{" "}
                     <b>Not available until</b> {course?.startDate} | <b>Due</b>{" "}
-                    {course?.endDate}| 100 pts
+                    {course?.endDate}| {assignment.points} pts
                   </p>
                 </div>
                 <div className="ms-auto d-flex align-items-center">
+                  <FaTrash
+                    className="text-danger me-2 mb-1"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleDelete(assignment._id)}
+                  />
                   <LessonControlButtons />
                 </div>
               </li>
