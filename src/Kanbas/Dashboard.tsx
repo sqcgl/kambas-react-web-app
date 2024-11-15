@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import * as db from "./Database";
 import { useSelector } from "react-redux";
 import CourseEditor from "./courseEditor";
+import EnrolledCourses from "./enrolledCourses";
 export default function Dashboard({
   courses,
   course,
@@ -18,22 +19,28 @@ export default function Dashboard({
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
 }) {
+  const [isCourseEditorVisible, setCourseEditorVisible] = useState(false);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = db;
+  const openEditor = () => {
+    setCourseEditorVisible((prev) => !prev);
+  };
+  const handleEditor = () => {
+    if (isCourseEditorVisible) {
+      return <CourseEditor />;
+    } else if (!isCourseEditorVisible) {
+      return <EnrolledCourses />;
+    }
+  };
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
       {currentUser.role === "STUDENT" && (
         <>
-          <button
-            className="btn btn-primary float-end"
-            data-bs-toggle="modal"
-            data-bs-target="#wd-show-courses-dialog"
-          >
-            Enrollment
+          <button onClick={openEditor} className="btn btn-primary float-end">
+            {isCourseEditorVisible ? "Enroll" : "Enrollment"}
           </button>
-
-          <CourseEditor />
+          {handleEditor()}
         </>
       )}
 
