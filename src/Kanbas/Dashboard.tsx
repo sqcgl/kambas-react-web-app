@@ -20,16 +20,38 @@ export default function Dashboard({
   updateCourse: () => void;
 }) {
   const [isCourseEditorVisible, setCourseEditorVisible] = useState(false);
+  const [showCourses, setshowCourses] = useState(false);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = db;
   const openEditor = () => {
-    setCourseEditorVisible((prev) => !prev);
+    if (!isCourseEditorVisible) {
+      setCourseEditorVisible(true);
+    }
+    setshowCourses((prev) => !prev);
   };
   const handleEditor = () => {
     if (isCourseEditorVisible) {
-      return <CourseEditor />;
-    } else if (!isCourseEditorVisible) {
-      return <EnrolledCourses />;
+      if (showCourses) {
+        return (
+          <CourseEditor
+            courses={courses}
+            course={course}
+            setCourse={setCourse}
+            addNewCourse={addNewCourse}
+            deleteCourse={deleteCourse}
+            updateCourse={updateCourse}
+          />
+        );
+      } else if (!showCourses) {
+        return (
+          <EnrolledCourses
+            courses={courses}
+            course={course}
+            setCourse={setCourse}
+            deleteCourse={deleteCourse}
+          />
+        );
+      }
     }
   };
   return (
@@ -38,7 +60,7 @@ export default function Dashboard({
       {currentUser.role === "STUDENT" && (
         <>
           <button onClick={openEditor} className="btn btn-primary float-end">
-            {isCourseEditorVisible ? "Enroll" : "Enrollment"}
+            {isCourseEditorVisible ? "Enrolled" : "Enrollment"}
           </button>
           {handleEditor()}
         </>
