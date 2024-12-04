@@ -7,10 +7,12 @@ import Kanbas from "./Kanbas";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 
 function App() {
+  console.log(process.env);
   return (
     <HashRouter>
       <Provider store={store}>
         <div>
+          <h1>App</h1>
           <Routes>
             <Route path="/" element={<Navigate to="/Kanbas" />} />
             <Route path="/Labs/*" element={<Labs />} />

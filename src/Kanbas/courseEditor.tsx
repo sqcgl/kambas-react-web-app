@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import * as db from "./Database";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import * as courseClient from "./Courses/client";
 export default function CourseEditor({
   courses,
   course,
@@ -16,33 +16,50 @@ export default function CourseEditor({
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
 }) {
-  const enrollments = db.enrollments;
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const [allCourses, setAllCourses] = useState<any[]>([]);
   const [checkedCourses, setCheckedCourses] = useState<{
     [key: string]: boolean;
-  }>(
-    courses.reduce((acc, course) => {
-      const isEnrolled = enrollments.some(
-        (enrollment) =>
-          enrollment.user === currentUser._id &&
-          enrollment.course === course._id
-      );
-      acc[course._id] = isEnrolled; // Set the checkbox as checked if enrolled
-      return acc;
-    }, {} as { [key: string]: boolean })
-  );
+  }>({});
+
+  // Fetch all courses on component mount
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await courseClient.fetchAllCourses(); // Fetch all courses
+        setAllCourses(data); // Populate allCourses state
+
+        // Initialize checkedCourses based on passed-in enrolled courses
+        const initialCheckedState = data.reduce((acc: any, course: any) => {
+          const isChecked = courses.some(
+            (enrolled) => enrolled._id === course._id
+          ); // Check if the course is enrolled
+          acc[course._id] = isChecked;
+          return acc;
+        }, {} as { [key: string]: boolean });
+
+        setCheckedCourses(initialCheckedState);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, [courses]);
+
   const handleCheck = (course: any) => {
     // Toggle the checked state for the course
+    const isCurrentlyChecked = checkedCourses[course._id];
     setCheckedCourses((prev) => ({
       ...prev,
-      [course._id]: !prev[course._id],
+      [course._id]: !isCurrentlyChecked,
     }));
 
     // Add or delete the course based on the new checked state
-    if (checkedCourses[course._id]) {
-      deleteCourse(course._id);
+    if (isCurrentlyChecked) {
+      deleteCourse(course); // Uncheck means removing enrollment
     } else {
-      setCourse(course);
+      setCourse(course); // Check means adding enrollment
+      addNewCourse(); // Ensure course is added if checked
     }
   };
   return (
@@ -50,14 +67,15 @@ export default function CourseEditor({
       <div>
         <h2>Courses</h2>
       </div>
-      <div>
-        {courses.map((course) => (
+      <div className="form-check form-switch">
+        {allCourses.map((course) => (
           <>
             <div>
               <span>{course.name}</span>
               <span className="float-end">
                 <label>
                   <input
+                    className="form-check-input"
                     type="checkbox"
                     checked={checkedCourses[course._id] || false}
                     onChange={() => handleCheck(course)}

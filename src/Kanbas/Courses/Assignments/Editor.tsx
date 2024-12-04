@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
 import { useNavigate, useParams } from "react-router-dom";
 import { courses } from "../../Database";
-
+import * as coursesClient from "../client";
+import * as assignmentClient from "./client";
 export default function AssignmentEditor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,12 +31,27 @@ export default function AssignmentEditor() {
     }
   );
 
-  const handleSave = () => {
+  const saveAssignment = async (assignment: any) => {
+    await assignmentClient.updateAssignment(assignment);
+    dispatch(updateAssignment(assignment));
+  };
+
+  const createAssignmentForCourse = async () => {
+    if (!cid) return;
+    const newAssignment = { name: assignment.name, course: cid };
+    const createdAssignment = await coursesClient.createAssignmentForCourse(
+      cid,
+      newAssignment
+    );
+    dispatch(addAssignment(createdAssignment));
+  };
+
+  const handleSave = async () => {
     if (existingAssignment) {
-      dispatch(updateAssignment(assignment));
+      await saveAssignment(assignment);
     } else {
       console.log("Dispatching addAssignment with:", assignment);
-      dispatch(addAssignment(assignment));
+      await createAssignmentForCourse();
     }
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };

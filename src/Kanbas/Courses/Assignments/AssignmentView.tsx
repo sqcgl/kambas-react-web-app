@@ -8,18 +8,36 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { courses } from "../../Database";
 import { FaTrash } from "react-icons/fa";
-import { deleteAssignment } from "../Assignments/reducer";
+import { deleteAssignment, setAssignments } from "../Assignments/reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
+import { useEffect } from "react";
 export default function AssignmentView() {
   const { cid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const course = courses.find((course) => course._id === cid);
   const dispatch = useDispatch();
-  const filteredAssignments = assignments.filter(
-    (assignment: any) => assignment.course === cid
-  );
-  const handleDelete = (assignmentId: any) => {
+  const removeAssignment = async (moduleId: string) => {
+    await assignmentsClient.deleteAssignment(moduleId);
+    dispatch(deleteAssignment(moduleId));
+  };
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(
+      cid as string
+    );
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+  const handleDelete = async (assignmentId: string) => {
     if (window.confirm("Are you sure you want to delete this assignment?")) {
-      dispatch(deleteAssignment(assignmentId));
+      try {
+        await removeAssignment(assignmentId); // Call the removeAssignment function
+        console.log(`Assignment ${assignmentId} deleted successfully`);
+      } catch (error) {
+        console.error(`Failed to delete assignment ${assignmentId}:`, error);
+      }
     }
   };
   return (
@@ -32,7 +50,7 @@ export default function AssignmentView() {
             Assigments <ModuelControlButtons />
           </div>
           <ul className="list-group rounded-0" id="wd-assignment-list">
-            {filteredAssignments.map((assignment: any) => (
+            {assignments.map((assignment: any) => (
               <li className="wd-assignment-list-item wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
                 <BsGripVertical className="me-2 fs-3" />
                 <TfiWrite className="me-2 fs-3" />
