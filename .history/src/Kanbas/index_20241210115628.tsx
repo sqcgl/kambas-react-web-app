@@ -16,6 +16,10 @@ export default function Kanbas() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [enrolling, setEnrolling] = useState<boolean>(false);
   const findCoursesForUser = async () => {
+    if (!currentUser || !currentUser._id) {
+      console.error("currentUser is null or missing _id");
+      return;
+    }
     try {
       const courses = await userClient.findCoursesForUser(currentUser._id);
       setCourses(courses);

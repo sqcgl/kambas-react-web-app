@@ -3,10 +3,12 @@ import { useParams } from "react-router";
 import PeopleTable from "../Courses/People/Table";
 import * as client from "./client";
 import { FaPlus } from "react-icons/fa";
+import * as courseClient from "../Courses/client";
 export default function Users() {
   const [users, setUsers] = useState<any[]>([]);
   const { uid } = useParams();
   const [role, setRole] = useState("");
+  const [course, setCourse] = useState("");
   const createUser = async () => {
     const user = await client.createUser({
       firstName: "New",
@@ -46,6 +48,16 @@ export default function Users() {
   useEffect(() => {
     fetchUsers();
   }, [uid]);
+
+  const filterUsersByCourse = async (course: any) => {
+    setCourse(course);
+    if (course) {
+      const users = await client.findCoursesForUser(course);
+      setUsers(users);
+    } else {
+      fetchUsers();
+    }
+  };
   return (
     <div>
       <button
@@ -72,6 +84,11 @@ export default function Users() {
         <option value="FACULTY">Faculty</option>
         <option value="ADMIN">Administrators</option>
       </select>
+      <select
+        name="form-select float-start w-25 wd-select-course"
+        value={course}
+        onChange={(e) => filterUsersByCourse(e.target.value)}
+      ></select>
       <PeopleTable users={users} />
     </div>
   );

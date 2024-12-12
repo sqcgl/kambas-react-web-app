@@ -39,12 +39,7 @@ export default function AssignmentEditor() {
   const createAssignmentForCourse = async () => {
     if (!cid) return;
     const newAssignment = {
-      title: assignment.title,
-      description: assignment.description,
-      points: assignment.points,
-      dueDate: assignment.dueDate,
-      availableFromDate: assignment.availableFromDate,
-      availableUntilDate: assignment.availableUntilDate,
+      title: assignment.title, // Changed from name to title
       course: cid,
     };
     const createdAssignment = await coursesClient.createAssignmentForCourse(
@@ -132,9 +127,9 @@ export default function AssignmentEditor() {
                 type="date"
                 id="due"
                 className="form-control mt-2"
-                value={assignment.dueDate}
+                value={course?.endDate}
                 onChange={(e) =>
-                  setAssignment({ ...assignment, dueDate: e.target.value })
+                  setAssignment({ ...assignment, endDate: e.target.value })
                 }
               />
             </div>
@@ -150,11 +145,11 @@ export default function AssignmentEditor() {
                   type="date"
                   id="availableFromDate"
                   className="form-control mt-2"
-                  value={assignment.availableFromDate}
+                  value={course?.startDate}
                   onChange={(e) =>
                     setAssignment({
                       ...assignment,
-                      availableFromDate: e.target.value,
+                      startDate: e.target.value,
                     })
                   }
                 />

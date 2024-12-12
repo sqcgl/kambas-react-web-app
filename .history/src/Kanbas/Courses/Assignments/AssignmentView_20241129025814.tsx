@@ -51,10 +51,7 @@ export default function AssignmentView() {
           </div>
           <ul className="list-group rounded-0" id="wd-assignment-list">
             {assignments.map((assignment: any) => (
-              <li
-                key={assignment._id}
-                className="wd-assignment-list-item wd-lesson list-group-item p-3 ps-1 d-flex align-items-center"
-              >
+              <li className="wd-assignment-list-item wd-lesson list-group-item p-3 ps-1 d-flex align-items-center">
                 <BsGripVertical className="me-2 fs-3" />
                 <TfiWrite className="me-2 fs-3" />
                 <div>
@@ -68,11 +65,9 @@ export default function AssignmentView() {
                     </h4>
                   </Link>
                   <p className="mb-0 text-muted">
-                    <span className="text-danger">Multiple Modules</span> |
-                    <b>Not available until</b>{" "}
-                    {assignment.availableFromDate || "Not set"} |<b>Due</b>{" "}
-                    {assignment.dueDate || "Not set"} |{assignment.points || 0}{" "}
-                    pts
+                    <span className="text-danger">Multiple Modules</span> |{" "}
+                    <b>Not available until</b> {course?.startDate} | <b>Due</b>{" "}
+                    {course?.endDate}| {assignment.points} pts
                   </p>
                 </div>
                 <div className="ms-auto d-flex align-items-center">

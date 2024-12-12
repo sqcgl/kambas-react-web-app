@@ -21,13 +21,13 @@ export default function AssignmentEditor() {
   // Initializing assignment state
   const [assignment, setAssignment] = useState<any>(
     existingAssignment || {
-      title: "", // Changed from name to title
+      name: "", // Using 'name' here
       description: "",
       points: 100,
-      dueDate: course?.endDate || "",
-      availableFromDate: course?.startDate || "",
-      availableUntilDate: course?.endDate || "",
-      course: cid,
+      dueDate: course?.endDate || "", // Default to course end date
+      availableFromDate: course?.startDate || "", // Default to course start date
+      availableUntilDate: course?.endDate || "", // Default to course end date
+      course: cid, // Ensure course ID is set
     }
   );
 
@@ -38,15 +38,7 @@ export default function AssignmentEditor() {
 
   const createAssignmentForCourse = async () => {
     if (!cid) return;
-    const newAssignment = {
-      title: assignment.title,
-      description: assignment.description,
-      points: assignment.points,
-      dueDate: assignment.dueDate,
-      availableFromDate: assignment.availableFromDate,
-      availableUntilDate: assignment.availableUntilDate,
-      course: cid,
-    };
+    const newAssignment = { name: assignment.name, course: cid };
     const createdAssignment = await coursesClient.createAssignmentForCourse(
       cid,
       newAssignment
@@ -132,9 +124,9 @@ export default function AssignmentEditor() {
                 type="date"
                 id="due"
                 className="form-control mt-2"
-                value={assignment.dueDate}
+                value={course?.endDate}
                 onChange={(e) =>
-                  setAssignment({ ...assignment, dueDate: e.target.value })
+                  setAssignment({ ...assignment, endDate: e.target.value })
                 }
               />
             </div>
@@ -150,11 +142,11 @@ export default function AssignmentEditor() {
                   type="date"
                   id="availableFromDate"
                   className="form-control mt-2"
-                  value={assignment.availableFromDate}
+                  value={course?.startDate}
                   onChange={(e) =>
                     setAssignment({
                       ...assignment,
-                      availableFromDate: e.target.value,
+                      startDate: e.target.value,
                     })
                   }
                 />

@@ -150,11 +150,11 @@ export default function AssignmentEditor() {
                   type="date"
                   id="availableFromDate"
                   className="form-control mt-2"
-                  value={assignment.availableFromDate}
+                  value={course?.startDate}
                   onChange={(e) =>
                     setAssignment({
                       ...assignment,
-                      availableFromDate: e.target.value,
+                      startDate: e.target.value,
                     })
                   }
                 />
